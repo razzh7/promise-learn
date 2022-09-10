@@ -38,7 +38,6 @@ class myPromise {
   }
 
   then(onFulfilled, onRejected) {
-    // debugger
     // 2.2.2 + 2.2.3
     onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : value => value
     onRejected = typeof onRejected === 'function' ? onRejected : (reason) => { throw reason }
