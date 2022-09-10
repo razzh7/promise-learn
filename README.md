@@ -1,5 +1,5 @@
 # 运行
-运行前请确保已经安装了[pnpm](https://pnpm.io/zh/)包管理工具
+运行前请确保已经安装了 [pnpm](https://pnpm.io/zh/) 包管理工具
 ```js
 pnpm i
 pnpm test
