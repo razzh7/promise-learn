@@ -7,8 +7,7 @@ class myPromise {
 
     const resolve = (value) => {
       if (value instanceof myPromise) {
-        value.then(resolve, reject)
-        return
+        return value.then(resolve, reject)
       }
       setTimeout(() => {
         if (this.PromiseState === 'pending') {
