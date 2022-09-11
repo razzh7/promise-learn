@@ -5,36 +5,38 @@ class myPromise {
     this.onFulfilledCallbacks = []
     this.onRejectedCallbacks = []
 
+    const resolve = (value) => {
+      if (value instanceof myPromise) {
+        value.then(resolve, reject)
+        return
+      }
+      setTimeout(() => {
+        if (this.PromiseState === 'pending') {
+          this.PromiseState = 'fulfilled'
+          this.PromiseResult = value
+          for (let i = 0; i < this.onFulfilledCallbacks.length; i++) {
+            this.onFulfilledCallbacks[i](value)
+          }
+        }
+      })
+    }
+
+    const reject = (reason) => {
+      setTimeout(() => {
+        if (this.PromiseState === 'pending') {
+          this.PromiseState = 'reject'
+          this.PromiseResult = reason
+          for (let i = 0; i < this.onRejectedCallbacks.length; i++) {
+            this.onRejectedCallbacks[i](reason)
+          }
+        }
+      })
+    }
     try {
-      // 通过bind promise1的this来让promise2中的cb push的callbacks是promise1中callbacks的值
-      excutor(this.resolve.bind(this), this.reject.bind(this))
+      excutor(resolve, reject)
     } catch(error) {
       this.reject(error)
     }
-  }
-
-  resolve(value) {
-    setTimeout(() => {
-      if (this.PromiseState === 'pending') {
-        this.PromiseState = 'fulfilled'
-        this.PromiseResult = value
-        for (let i = 0; i < this.onFulfilledCallbacks.length; i++) {
-          this.onFulfilledCallbacks[i](value)
-        }
-      }
-    })
-  }
-
-  reject(reason) {
-    setTimeout(() => {
-      if (this.PromiseState === 'pending') {
-        this.PromiseState = 'reject'
-        this.PromiseResult = reason
-        for (let i = 0; i < this.onRejectedCallbacks.length; i++) {
-          this.onRejectedCallbacks[i](reason)
-        }
-      }
-    })
   }
 
   then(onFulfilled, onRejected) {
